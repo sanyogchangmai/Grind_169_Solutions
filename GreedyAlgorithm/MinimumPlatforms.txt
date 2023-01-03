@@ -1,0 +1,23 @@
+Approach - Sort arival and departures both in ascending order
+
+Time = O(nlogn) | Space = O(1)
+
+class Solution
+{
+    static int findPlatform(int arr[], int dep[], int n)
+    {
+        Arrays.sort(arr);
+        Arrays.sort(dep);
+        int platforms = 1;
+        int j = 0;
+        for(int i=1; i<n; i++) {
+            if(arr[i] <= dep[j]) {
+                platforms++;
+            }
+            else {
+                j++;
+            }
+        }
+        return platforms;
+    }
+}

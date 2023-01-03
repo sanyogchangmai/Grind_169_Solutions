@@ -1,0 +1,115 @@
+Approach 1 - Using iteration with BST property
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    static void getPath(TreeNode root, TreeNode target, List<TreeNode> list) {
+        boolean flag = false;
+        while(flag == false) {
+            list.add(root);
+            if(root.val == target.val) {
+                flag = true;
+            }
+            else {
+                if(target.val < root.val) {
+                    root = root.left;
+                }
+                else {
+                    root = root.right;
+                }
+            }
+        }
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> l1 = new ArrayList<TreeNode>();
+        List<TreeNode> l2 = new ArrayList<TreeNode>();
+        getPath(root, p, l1);
+        getPath(root, q, l2);
+
+        int len = Math.min(l1.size(), l2.size());
+
+        int res = 0;
+        for(int i=len-1; i>=0; i--) {
+            TreeNode temp1 = l1.get(i);
+            TreeNode temp2 = l2.get(i);
+            if(temp1.val == temp2.val) {
+                res = i;
+                break;
+            }
+        }
+
+        return l1.get(res);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Using recursion
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    static boolean getPath(TreeNode root, TreeNode target, List<TreeNode> list) {
+        if(root == null) {
+            return false;
+        }
+        list.add(root);
+        if(root.val == target.val) {
+            return true;
+        }
+        boolean leftCall = getPath(root.left, target, list);
+        boolean rightCall = getPath(root.right, target, list);
+
+        if(leftCall || rightCall) {
+            return true;
+        }
+        list.remove(list.size()-1);
+        return false;
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> l1 = new ArrayList<TreeNode>();
+        List<TreeNode> l2 = new ArrayList<TreeNode>();
+        getPath(root, p, l1);
+        getPath(root, q, l2);
+        int len = Math.min(l1.size(), l2.size());
+        int res = 0;
+        for(int i=len-1; i>=0; i--) {
+            TreeNode temp1 = l1.get(i);
+            TreeNode temp2 = l2.get(i);
+            if(temp1.val == temp2.val) {
+                res = i;
+                break;
+            }
+        }
+        return l1.get(res);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 3 - Using recursion with space optimization
+
+Time = O(n) | Space = O(1)
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q) {
+            return root;
+        }
+        
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        if(left == null) {
+            return right;
+        }
+        else if(right == null) {
+            return left;
+        }
+        else {
+            return root;
+        }
+    }
+}

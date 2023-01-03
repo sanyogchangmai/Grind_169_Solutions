@@ -1,0 +1,29 @@
+Approach - BFS and at each level mind max
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    ArrayList<Integer> maximumValue(Node node) {
+        ArrayList<Integer> res = new ArrayList<>();
+        Queue<Node> q = new LinkedList<>();
+        q.offer(node);
+       
+        while(q.size() != 0) {
+            int len = q.size();
+            int max = 0;
+            for(int i=1; i<=len; i++) {
+                Node temp = q.poll();
+                if(temp.left != null) {
+                    q.offer(temp.left);
+                }
+                if(temp.right != null) {
+                    q.offer(temp.right);
+                } 
+                max = Math.max(max, temp.data);
+            }
+            res.add(max);
+        }
+        
+        return res;
+    }
+}

@@ -1,0 +1,25 @@
+Approach - Greedy Approah by calculating value/weight ratio and sorting in desc. order
+
+Time = O(nlogn) | Space = O(1)
+
+class Solution
+{
+    double fractionalKnapsack(int W, Item arr[], int n) 
+    {
+        Arrays.sort(arr, (a,b) -> (b.value*a.weight) - (a.value*b.weight));
+        int currentWeight = 0;
+        double currentValue = 0.0;
+        for(int i=0; i<arr.length; i++) {
+            if(currentWeight + arr[i].weight <= W) {
+                currentWeight += arr[i].weight;
+                currentValue += arr[i].value;
+            }
+            else {
+                int left = W - currentWeight;
+                currentValue += ((double)arr[i].value / (double)arr[i].weight) * (double)left;
+                break;
+            }
+        }
+        return currentValue;
+    }
+}

@@ -1,0 +1,77 @@
+Approach 1 - Using iteration
+
+Time = O(n*n) | Space = O(1)
+
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+
+        for(int i=0; i<n; i++) {
+            int tank = 0;
+            if(gas[i] - cost[i] >= 0) {
+                tank = gas[i] - cost[i];
+            }
+            else {
+                continue;
+            }
+            int j = 0;
+            j = i+1;
+            if(j == n) {
+                j = 0;
+            }
+            while(tank + gas[j] - cost[j] >= 0) {
+                System.out.println(j);
+                if(j == i) {
+                    System.out.println(i + " " + j);
+                    return i;
+                }
+                tank += gas[j];
+                tank -= cost[j];
+                if(j == n-1) {
+                    j = 0;
+                }
+                else {
+                    j++;
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Greedy
+
+1. We firstly make sure that total gas >= total cost
+2. Then we traverse from index 0 and check from which index we can start.
+3. And since we made sure total gas >= total cost the first index from 
+   where we can start is the req. solution which is unique.
+
+Time = O(n) | Space = O(1)
+
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        int totalGas = 0;
+        int totalCost = 0;
+        for(int i=0; i<n; i++) {
+            totalGas += gas[i];
+            totalCost += cost[i];
+        }
+        if(totalGas < totalCost) {
+            return -1;
+        }
+
+        int tank = 0;
+        int start = 0;
+        for(int i=0; i<n; i++) {
+            tank += gas[i] - cost[i];
+            if(tank < 0) {
+                start = i + 1;
+                tank = 0;
+            }
+        }
+        return start;
+    }
+}

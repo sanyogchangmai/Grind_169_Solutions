@@ -1,0 +1,64 @@
+Approach 1 - Using recursion
+
+Time = O(2^n) | Space = O(n)
+
+class Solution {
+    static int solve(int i, int n, int[] nums) {
+        if(i == n) {
+            return nums[i];
+        }
+        if(i > n) {
+            return 0;
+        }
+        int pick = nums[i] + solve(i+2, n, nums);
+        int notPick = 0 + solve(i+1, n, nums);
+        return Math.max(pick, notPick);
+    }
+    public int rob(int[] nums) {
+        int n = nums.length-1;
+        return solve(0, n, nums);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Dynamic Programming - Optimizing using Memoization
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    static int solve(int i, int n, int[] nums, int[] dp) {
+        if(i == n) {
+            return nums[i];
+        }
+        if(i > n) {
+            return 0;
+        }
+        if(dp[i] != -1) {
+            return dp[i];
+        }
+        int pick = nums[i] + solve(i+2, n, nums, dp);
+        int notPick = 0 + solve(i+1, n, nums, dp);
+        dp[i] = Math.max(pick, notPick);
+        return dp[i];
+    }
+    public int rob(int[] nums) {
+        int n = nums.length-1;
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+        return solve(0, n, nums, dp);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Dynamic Programming - Optimizing using Tabulation
+
+Time = O(n) | Space = O(n)
+
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Dynamic Programming - Tabulation and space optimized
+
+Time = O(n) | Space = O(n)
