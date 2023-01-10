@@ -43,4 +43,3 @@ class Solution {
     }
 }
 
-// Find the lower bound from their generate subarrays and subtract the extrems to find diff i.e max profit
