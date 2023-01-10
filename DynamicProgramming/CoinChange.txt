@@ -1,0 +1,73 @@
+DP on subsequence - using pick and not pick method
+
+NOTE - when given - infinite supply, multiple use remain at same index
+       in take case
+
+Approach 1 - Using Recursion
+
+Time >> O(2^n) exponential | Space >> O(target)
+
+class Solution {
+    static int solve(int i, int amount, int[] coins) {
+        if(i == 0) {
+            if(amount % coins[i] == 0) {
+                return amount / coins[i];  
+            }
+            return (int) 1e9;
+        }
+        int notTake = 0 + solve(i-1, amount, coins);
+        int take = Integer.MAX_VALUE;
+        if(coins[i] <= amount) {
+            take = 1 + solve(i, amount - coins[i], coins);
+        }
+        return Math.min(notTake, take);
+    }
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int res = solve(n-1, amount, coins);
+        int INF = (int) 1e9;
+        if(res >= INF) {
+            return -1;
+        }
+        return res;
+    }
+}
+
+--------------------------------------------------------------------------------
+Aproach 2 - Using memoization
+
+Time = O(n * amount) | Space = O(n * amount)
+
+class Solution {
+    static int solve(int i, int amount, int[] coins, int[][] dp) {
+        if(i == 0) {
+            if(amount % coins[i] == 0) {
+                return amount / coins[i];  
+            }
+            return (int) 1e9;
+        }
+        if(dp[i][amount] != -1) {
+            return dp[i][amount];
+        }
+        int notTake = 0 + solve(i-1, amount, coins, dp);
+        int take = Integer.MAX_VALUE;
+        if(coins[i] <= amount) {
+            take = 1 + solve(i, amount - coins[i], coins, dp);
+        }
+        dp[i][amount] = Math.min(notTake, take);
+        return dp[i][amount];
+    }
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[][] dp = new int[n][amount+1];
+        for(int i=0; i<n; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        int res = solve(n-1, amount, coins, dp);
+        int INF = (int) 1e9;
+        if(res >= INF) {
+            return -1;
+        }
+        return res;
+    }
+}

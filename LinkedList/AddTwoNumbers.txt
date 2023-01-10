@@ -1,0 +1,181 @@
+Approach 1
+Using Lists
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    static List getArrayList(ListNode head) {
+        ListNode curr = head;
+        List<Integer> list = new ArrayList<>();
+        while(curr != null) {
+            list.add(curr.val);
+            curr = curr.next;
+        }
+        return list;
+    }
+    
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        List<Integer> arr1 = getArrayList(l1);
+        List<Integer> arr2 = getArrayList(l2);
+        
+        int len1 = arr1.size();
+        int len2 = arr2.size();
+        int minLen = Math.min(len1, len2);
+        
+        ListNode res = new ListNode();
+        ListNode ans = res;
+        int remainder = 0;
+        int carry = 0;
+        for(int i=0; i<minLen; i++) {
+            int sum = arr1.get(i) + arr2.get(i) + carry;
+            remainder = sum%10;
+            carry = sum/10;
+            ListNode temp = new ListNode(remainder);
+            res.next = temp;
+            res = temp;
+        }
+        if(carry == 1) {
+            ListNode temp = new ListNode(1);
+            res.next = temp;
+        }
+        
+        int r = 0;
+        if(Math.abs(len1 - len2) != 0) {
+            if(len1 < len2){
+                for(int i=len1; i<len2; i++) {
+                    int sum = arr2.get(i) + carry;
+                    r = sum%10;
+                    carry = sum/10;
+                    ListNode temp = new ListNode(r);
+                    res.next = temp;
+                    res = temp;
+                }
+                if(carry == 1) {
+                    ListNode temp = new ListNode(1);
+                    res.next = temp;
+                }
+            }
+            else {
+                for(int i=len2; i<len1; i++) {
+                    int sum = arr1.get(i) + carry;
+                    r = sum%10;
+                    carry = sum/10;
+                    ListNode temp = new ListNode(r);
+                    res.next = temp;
+                    res = temp;
+                }
+                if(carry == 1) {
+                    ListNode temp = new ListNode(1);
+                    res.next = temp;
+                }
+            }
+        }
+        
+        return ans.next;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2
+Using linkedLists
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode curr1 = l1;
+        ListNode curr2 = l2;
+        
+        int carry = 0;
+        ListNode res = new ListNode();
+        ListNode ans = res;
+        while(curr1 != null || curr2 != null) {
+            int sum = carry;
+            if(curr1 != null) {
+                sum += curr1.val;
+            }
+            if(curr2 != null) {
+                sum += curr2.val;
+            }
+            int remainder = sum%10;
+            carry = sum/10;
+            ListNode temp = new ListNode(remainder);
+            res.next = temp;
+            res = temp;
+            
+            if(curr1 != null)
+            curr1 = curr1.next;
+            if(curr2 != null)
+            curr2 = curr2.next;
+        }
+        
+        if(carry == 1) {
+            ListNode temp = new ListNode(1);
+            res.next = temp;
+            res = temp;
+        }
+        
+        return ans.next;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+If addition is to be done from right side.
+
+class Solution {
+    static List getArrayList(ListNode head) {
+        ListNode curr = head;
+        List<Integer> list = new ArrayList<>();
+        while(curr != null) {
+            list.add(curr.val);
+            curr = curr.next;
+        }
+        return list;
+    }
+    
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        List<Integer> arr1 = getArrayList(l1);
+        List<Integer> arr2 = getArrayList(l2);
+        
+        Collections.reverse(arr1);
+        Collections.reverse(arr2);
+        
+        int len1 = arr1.size();
+        int len2 = arr2.size();
+        int minLen = Math.min(len1, len2);
+        
+        ListNode res = new ListNode();
+        ListNode ans = res;
+        int remainder = 0;
+        int carry = 0;
+        for(int i=0; i<minLen; i++) {
+            int sum = arr1.get(i) + arr2.get(i) + carry;
+            remainder = sum%10;
+            carry = sum/10;
+            ListNode temp = new ListNode(remainder);
+            res.next = temp;
+            res = temp;
+        }
+        
+        if(Math.abs(len1 - len2) != 0) {
+            if(len1 < len2){
+                for(int i=len1; i<len2; i++) {
+                    ListNode temp = new ListNode(arr2.get(i));
+                    res.next = temp;
+                    res = temp;
+                }
+            }
+            else {
+                for(int i=len2; i<len1; i++) {
+                    ListNode temp = new ListNode(arr1.get(i));
+                    res.next = temp;
+                    res = temp;
+                }
+            }
+        }
+        
+        return ans.next;
+    }
+}

@@ -1,0 +1,86 @@
+Approach 1
+Using List
+
+Time = O(m+n) | Space = O(m+n)
+Where m is length of Linkedlist1 and n is length of LinkedList2
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1 == null) {
+            return list2;
+        }
+        if(list2 == null) {
+            return list1;
+        }
+
+        List<Integer> l = new ArrayList<>();
+        
+        ListNode curr1 = list1;
+        while(curr1 != null) {
+            l.add(curr1.val);
+            curr1 = curr1.next;
+        }
+        
+        ListNode curr2 = list2;
+        while(curr2 != null) {
+            l.add(curr2.val);
+            curr2 = curr2.next;
+        }
+        
+        Collections.sort(l);
+        
+        ListNode dummy = new ListNode();
+        ListNode head = dummy;
+        for(int i=0; i<l.size(); i++) {
+            ListNode temp = new ListNode(l.get(i));
+            dummy.next = temp;
+            dummy = temp;
+        }
+        
+        return head.next;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2
+Manipulation Of Links
+
+Time = O(n) | Space = O(1)
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1 == null) {
+            return list2;
+        }
+        if(list2 == null) {
+            return list1;
+        }
+        
+        // we always traverse as list1
+        if(list1.val > list2.val) {
+            ListNode temp = list1;
+            list1 = list2;
+            list2 = temp;
+        }
+        
+        // store starting of linkedlist
+        ListNode res = list1;
+        while(list1 != null && list2 != null) {
+            ListNode temp = null;
+            while(list1 != null && list1.val <= list2.val) {
+                temp = list1;
+                list1 = list1.next;
+            }
+            
+            temp.next = list2;
+            
+            //swap
+            ListNode temp2 = list2;
+            list2 = list1;
+            list1 = temp2;
+        }
+        
+        return res;
+    }
+}

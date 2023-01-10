@@ -1,0 +1,44 @@
+Approach 1
+
+Time = O(m*n) | Space = O(m*n)
+
+class Solution {
+    public int[][] transpose(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        
+        int[][] res = new int[col][row];
+        
+        for(int i=0; i<col; i++) {
+            for(int j=0; j<row; j++) {
+                res[i][j] = matrix[j][i];
+            }
+        }
+        
+        return res;
+    }
+}
+
+----------------------------------------------------------------------
+
+Approach 2
+In place - valid for m*m matrix only
+
+Time = O(m*m) | Space = O(1)
+
+class Solution {
+    public int[][] transpose(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        
+        for(int i=0; i<row; i++) {
+            for(int j=i+1; j<col; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+        
+        return matrix;
+    }
+}

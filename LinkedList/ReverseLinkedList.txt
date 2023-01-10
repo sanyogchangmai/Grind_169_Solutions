@@ -1,0 +1,57 @@
+Approach 1
+Using a List to store values and creating a new Linkedlist in reverse order
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        
+        if(head == null) {
+            return head;
+        }
+        
+        List<Integer> l = new ArrayList<>();
+        
+        ListNode curr = head;
+        while(curr != null) {
+            l.add(curr.val);
+            curr = curr.next;
+        }
+        
+        ListNode head1 = new ListNode(l.get(l.size()-1));
+        ListNode curr1 = head1;
+        for(int i=l.size()-2; i>=0; i--) {
+            ListNode temp = new ListNode(l.get(i));
+            curr1.next = temp;
+            curr1 = temp;
+        }
+        
+        return head1;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2
+Using constant space by reversing the Links
+
+Time = O(n) | Space = O(1)
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null) {
+            return head;
+        }
+        
+        ListNode newHead = null;
+        
+        while(head != null) {
+            ListNode temp = head.next;
+            head.next = newHead;
+            newHead = head;
+            head = temp;
+        }
+        
+        return newHead;
+    }
+}

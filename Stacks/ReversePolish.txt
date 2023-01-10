@@ -1,0 +1,35 @@
+Approach - Using Stack
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        int n = tokens.length;
+        Stack<Integer> st = new Stack<>();
+        for(int i=0; i<n; i++) {
+            String op = tokens[i];
+            if(op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/")) {
+                int n1 = st.pop();
+                int n2 = st.pop();
+                switch(op) {
+                    case "+":
+                        st.push(n1 + n2);
+                        break;
+                    case "-":
+                        st.push(n2 - n1);
+                        break;
+                    case "*":
+                        st.push(n1 * n2);
+                        break;
+                    case "/":
+                        st.push(n2 / n1);
+                        break;
+                }
+            }
+            else {
+                st.push(Integer.parseInt(tokens[i]));
+            }
+        }
+        return st.peek();
+    }
+}

@@ -1,0 +1,44 @@
+Approach 1
+Using Iteration
+
+Time = O(n) | Space = O(1)
+
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode curr = head;
+        int count = 0;
+        while(curr != null) {
+            count++;
+            curr = curr.next;
+        }
+        
+        count = count/2 + 1;
+        
+        for(int i=1; i<count; i++) {
+            head = head.next;
+        }
+        
+        return head;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2
+Using Slow and Fast pointers
+
+Time = O(n/2) | Space = O(1)
+
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        return slow;
+    }
+}
