@@ -1,4 +1,4 @@
-Approah 1 - Using traversal
+Approach 1 - Using traversal
 
 Time = O(n*n) | Space = O(1)
 

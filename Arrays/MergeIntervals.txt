@@ -1,0 +1,63 @@
+Approach
+
+1. Make sure intervals are sorted by starting time
+2. create a new array and store the first element
+3. Iterate intervals frin idx 1 and compare with the last ele of arr
+4. If both overlap - merge
+5. If dont overlap - add the curr interval ele to arr
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    static boolean doOverlap(List<Integer> t1, List<Integer> t2) {
+        int start = Math.max(t1.get(0), t2.get(0));
+        int end = Math.min(t1.get(1), t2.get(1));
+        if(end - start >= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    static List<Integer> merge(List<Integer> t1, List<Integer> t2) {
+        List<Integer> temp = new ArrayList<>();
+        temp.add(Math.min(t1.get(0), t2.get(0)));
+        temp.add(Math.max(t1.get(1), t2.get(1)));
+        return temp;
+    }
+
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> arr = new ArrayList<>();
+        arr.add(intervals[0][0]);
+        arr.add(intervals[0][1]);
+        res.add(arr);
+
+        for(int i=1; i<intervals.length; i++) {
+            List<Integer> temp1 = res.get(res.size()-1);
+            List<Integer> temp2 = new ArrayList<>();
+            temp2.add(intervals[i][0]);
+            temp2.add(intervals[i][1]);
+            if(doOverlap(temp1, temp2)) {
+                res.remove(res.size()-1);
+                res.add(merge(temp1, temp2));
+            }
+            else {
+                List<Integer> temp = new ArrayList<>();
+                temp.add(intervals[i][0]);
+                temp.add(intervals[i][1]);
+                res.add(temp);
+            }
+        }
+
+        int m = res.size();
+        int n = res.get(0).size();
+        int[][] ans = new int[m][n];
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                ans[i][j] = res.get(i).get(j);
+            }
+        }
+        return ans;
+    }
+}
