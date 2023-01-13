@@ -1,7 +1,7 @@
 Approach 1
 Using List
 
-Time = O(m+n) | Space = O(m+n)
+Time = O((m+n)log(m+n)) | Space = O(m+n)
 Where m is length of Linkedlist1 and n is length of LinkedList2
 
 class Solution {

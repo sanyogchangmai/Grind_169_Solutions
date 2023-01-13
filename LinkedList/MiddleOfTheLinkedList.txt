@@ -10,14 +10,11 @@ class Solution {
         while(curr != null) {
             count++;
             curr = curr.next;
-        }
-        
+        } 
         count = count/2 + 1;
-        
         for(int i=1; i<count; i++) {
             head = head.next;
         }
-        
         return head;
     }
 }
@@ -33,12 +30,10 @@ class Solution {
     public ListNode middleNode(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
-        
         while(fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
-        
         return slow;
     }
 }
