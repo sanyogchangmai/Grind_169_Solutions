@@ -1,0 +1,33 @@
+Approach - Create Pair of coordinates and distance and utilize heap, max heap
+
+Time = O(nlogk) | Space = O(k)
+
+class Solution {
+    class Pair {
+        int x;
+        int y;
+        int val;
+        Pair(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+    }
+    public int[][] kClosest(int[][] points, int k) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> b.val - a.val);
+        for(int i=0; i<points.length; i++) {
+            int distance = points[i][0] * points[i][0] + points[i][1] * points[i][1];
+            pq.offer(new Pair(points[i][0], points[i][1], distance));
+            if(pq.size() > k) {
+                pq.poll();
+            }
+        }
+        int[][] res = new int[k][2];
+        for(int i=0; i<k; i++) {
+            Pair point = pq.poll();
+            res[i][0] = point.x;
+            res[i][1] = point.y;
+        }
+        return res;
+    }
+}

@@ -1,0 +1,55 @@
+Approach 1 - Sort array and traverse k times from last and return
+
+Time = O(nlogn) | Space = O(1)
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        int i = nums.length-1;
+        while(k > 1) {
+            i--;
+            k--;
+        }
+        return nums[i];
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Store in max heap and pop to reach kth element
+
+Time = O(n + klogk) | Space = O(n)
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> q = new PriorityQueue<>((a,b) -> b - a);
+        for(int i=0; i<nums.length; i++) {
+            q.offer(nums[i]);
+        }
+        int i = 1;
+        while(i < k) {
+            q.poll();
+            i++;
+        }
+        return q.peek();
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 3 - Store in min heap
+
+Time = O(n + klogk) | Space = O(k)
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(); 
+        for(int i=0; i<nums.length; i++) {
+            pq.offer(nums[i]);
+            if(pq.size() > k) {
+                pq.poll();
+            }
+        }
+        return pq.peek();
+    }
+}

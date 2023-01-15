@@ -1,0 +1,50 @@
+Approach - 
+
+Time = O(nlogk) | Space = O(n + k)
+
+class Solution {
+    class Pair {
+        String val;
+        int freq;
+        Pair(String x, int y) {
+            this.val = x;
+            this.freq = y;
+        }
+    }
+    public List<String> topKFrequent(String[] words, int k) {
+        HashMap<String, Integer> map = new HashMap<>();
+        for(int i=0; i<words.length; i++) {
+            map.put(words[i], map.getOrDefault(words[i], 0) + 1);
+        }
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> {
+            if(a.freq == b.freq) {
+                // push lexicographically bigger to top
+                return b.val.compareTo(a.val);
+            }
+            return a.freq - b.freq;
+        });
+        for(String s: map.keySet()) {
+            if(pq.size() < k) {
+                pq.offer(new Pair(s, map.get(s)));
+            }
+            else {
+                if( pq.peek().freq < map.get(s)) {
+                    pq.poll();
+                    pq.offer(new Pair(s, map.get(s)));
+                }
+                else if(pq.peek().freq == map.get(s)) {
+                    pq.offer(new Pair(s, map.get(s)));
+                }
+            }
+        }
+        while(pq.size() > k){
+            pq.poll();
+        }
+        List<String> res = new ArrayList<>();
+        while(pq.size() != 0) {
+            res.add(0, pq.poll().val);
+        }
+        System.out.println(res);
+        return res;
+    }
+}
