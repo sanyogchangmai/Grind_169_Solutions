@@ -94,14 +94,17 @@ class Solution {
             if(nums[mid] == target) {
                 return mid;
             }
+            // if left half is sorted
             if(nums[low] <= nums[mid]){
+                // if present in sorted half
                 if(target >= nums[low] && target < nums[mid]) {
                     high = mid - 1;
                 }
                 else {
-                    low = mid + 1;
+                    low = mid + 1; // if not present in sorted half
                 }
             }
+            // if right half is sorted
             else {
                 if(target > nums[mid] && target <= nums[high]) {
                     low = mid + 1;
