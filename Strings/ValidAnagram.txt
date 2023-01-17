@@ -1,0 +1,50 @@
+Approach 1 - Convert given string to array of chars, create string and compare
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        char[] s1 = s.toCharArray();
+        Arrays.sort(s1);
+        String fs = "";
+        for(int i=0; i<s1.length; i++) {
+            fs += s1[i];
+        }
+        char[] t1 = t.toCharArray();
+        Arrays.sort(t1);
+        String ft = "";
+        for(int i=0; i<t1.length; i++) {
+            ft += t1[i];
+        }
+        if(fs.equals(ft)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Using hashmaps
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) {
+            return false;
+        }
+        HashMap<Character, Integer> ms = new HashMap<>();
+        HashMap<Character, Integer> mt = new HashMap<>();
+        
+        for(int i=0; i<s.length(); i++) {
+            ms.put(s.charAt(i), ms.getOrDefault(s.charAt(i), 0) + 1);
+        }
+        for(int i=0; i<t.length(); i++) {
+            mt.put(t.charAt(i), mt.getOrDefault(t.charAt(i), 0) + 1);
+        }    
+        return ms.equals(mt);
+    }
+}

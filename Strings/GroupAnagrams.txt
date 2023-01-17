@@ -1,0 +1,33 @@
+Approach 1
+
+Time = O(n^3) | Space = O(n)
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        for(int i=0; i<strs.length; i++) {
+            if(strs[i] != "-1") {
+                String s1 = strs[i];
+                List<String> temp = new ArrayList<String>();
+                temp.add(s1);
+                HashMap<Character, Integer> map1 = new HashMap<>();
+                for(int j=0; j<s1.length(); j++) {
+                    map1.put(s1.charAt(j), map1.getOrDefault(s1.charAt(j), 0) + 1);
+                }
+                for(int k=i+1; k<strs.length; k++) {
+                    String s2 = strs[k];
+                    HashMap<Character, Integer> map2 = new HashMap<>();
+                    for(int j=0; j<s2.length(); j++) {
+                        map2.put(s2.charAt(j), map2.getOrDefault(s2.charAt(j), 0) + 1);
+                    }
+                    if(map1.equals(map2)) {
+                        temp.add(s2);
+                        strs[k] = "-1";
+                    }
+                }
+                res.add(temp);
+            }
+        }
+        return res;
+    }
+}

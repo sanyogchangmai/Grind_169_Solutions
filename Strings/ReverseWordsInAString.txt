@@ -1,0 +1,46 @@
+Approach 1 - Split string around spaces using regex then reverse the list, 
+create new string and return
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public String reverseWords(String s) {
+        List<String> arr = new ArrayList<String>(
+            Arrays.asList(s.split("\\s+"))
+        );
+        Collections.reverse(arr);
+        for(int i=0; i<arr.size(); i++) {
+            if(arr.get(i) == "") {
+                arr.remove(i);
+            }
+        }
+        System.out.println(arr);
+        String res = "";
+        int n = arr.size();
+        for(int i=0; i<n-1; i++) {
+            res += arr.get(i) + " ";
+        }
+        res += arr.get(n-1);
+        return res;
+    }
+}
+
+------------------------------------ OR ----------------------------------------
+
+More optimized
+
+class Solution {
+    public String reverseWords(String s) {
+        String[] arr = s.split(" ");
+        int len = arr.length;
+        String res = "";
+        for(int i=len-1; i>=0; i--) {
+            if(arr[i].length() > 0) {
+                res = res + arr[i] + " ";
+            }
+        }
+        res = res.substring(0, res.length() - 1);
+        return res;
+    }
+}
+
