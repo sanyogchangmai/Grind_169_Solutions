@@ -1,0 +1,25 @@
+Approach 1 - Using recursion
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    static void solve(TreeNode root, String s, List<String> res) {
+        if(root == null) {
+            return;
+        }
+        s = s + root.val;
+        if(root.left == null && root.right == null) {
+            res.add(s);
+            return;
+        }
+        s = s + "->";
+        solve(root.left, s, res);
+        solve(root.right, s, res);
+    }
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<String>();
+        String s = "";
+        solve(root, s, res);
+        return res;
+    }
+}

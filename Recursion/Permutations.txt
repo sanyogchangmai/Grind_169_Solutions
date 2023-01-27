@@ -1,0 +1,30 @@
+Approach 1 - 
+
+Time = O() | Space = O(n)
+
+class Solution {
+    static void solve(int i, List<Integer> num, List<Integer> arr, List<List<Integer>> res, int n) {
+        if(i == n) {
+            res.add(new ArrayList<>(arr));
+            return;
+        }
+        for(int j=0; j<num.size(); j++) {
+            List<Integer> temp = new ArrayList<>(num);
+            arr.add(temp.get(j));
+            temp.remove(j);
+            solve(i+1, temp, arr, res, n);
+            arr.remove(arr.size()-1);
+        }
+        return;
+    }
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> num = new ArrayList<>();
+        for(int i=0; i<nums.length; i++) {
+            num.add(nums[i]);
+        }
+        int n = nums.length;
+        solve(0, num, new ArrayList<Integer>(), res, n);
+        return res;
+    }
+}

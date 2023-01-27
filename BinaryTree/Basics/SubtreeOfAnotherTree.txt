@@ -1,0 +1,38 @@
+Approach 1 - Using Queue an recursion, BFS + sameTree concept
+
+Time = O(n * m) | Space = O(n + m)
+class Solution {
+    static boolean sameTree(TreeNode p, TreeNode q) {
+        if(p == null && q == null) {
+            return true;
+        }
+        if(p == null || q == null) {
+            return false;
+        }
+        if(p.val != q.val) {
+            return false;
+        }
+        boolean left = sameTree(p.left, q.left);
+        boolean right = sameTree(p.right, q.right);
+        return left && right;
+    }
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.offer(root);
+        while(q.size() != 0) {
+            TreeNode temp = q.poll();
+            if(temp.val == subRoot.val) {
+                if(sameTree(temp, subRoot)) {
+                    return true;
+                }
+            }
+            if(temp.left != null) {
+                q.offer(temp.left);
+            }
+            if(temp.right != null) {
+                q.offer(temp.right);
+            }
+        }
+        return false;
+    }
+}

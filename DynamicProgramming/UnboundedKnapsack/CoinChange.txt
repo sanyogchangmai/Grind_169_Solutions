@@ -1,3 +1,5 @@
+Multiple ofitems allowed
+
 DP on subsequence - using pick and not pick method
 
 NOTE - when given - infinite supply, multiple use remain at same index
@@ -36,7 +38,7 @@ class Solution {
 --------------------------------------------------------------------------------
 Aproach 2 - Using memoization
 
-Time = O(n * amount) | Space = O(n * amount)
+Time = O(n * amount) | Space = O(n * amount) + O(n)
 
 class Solution {
     static int solve(int i, int amount, int[] coins, int[][] dp) {

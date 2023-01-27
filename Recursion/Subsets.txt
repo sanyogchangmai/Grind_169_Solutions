@@ -1,0 +1,22 @@
+Approach 1 - For each index considering pick and not pick
+
+Time = O(2^n) | Space = O(n)
+
+class Solution {
+    static void solve(List<List<Integer>> res, List<Integer> arr, int[] nums, int i) {
+        if(i==nums.length) {
+            res.add(new ArrayList<Integer>(arr));
+            return;
+        }
+        arr.add(nums[i]);
+        solve(res, arr, nums, i+1);
+        arr.remove(arr.size()-1);
+        solve(res, arr, nums, i+1);
+        return;
+    }
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        solve(res, new ArrayList<Integer>(), nums, 0);
+        return res;
+    }
+}

@@ -1,0 +1,32 @@
+Approach 1 - Using BFS and recursion
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    static int getHeight(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+        int leftHeight = getHeight(root.left);
+        int rightHeight = getHeight(root.right);
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        int max = Integer.MIN_VALUE;
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.offer(root);
+        while(q.size() != 0) {
+            TreeNode temp = q.poll();
+            int leftHeight = getHeight(temp.left);
+            int rightHeight = getHeight(temp.right);
+            max = Math.max(max, leftHeight + rightHeight);
+            if(temp.left != null) {
+                q.offer(temp.left);
+            }
+            if(temp.right != null) {
+                q.offer(temp.right);
+            }
+        }
+        return max;
+    }
+}

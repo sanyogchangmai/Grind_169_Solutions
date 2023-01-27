@@ -1,0 +1,61 @@
+Approach 1 - Using recursion
+
+Time = O(2^n) | Space = O(n)
+
+class Solution{
+    static int solve(int n, int W, int[] val, int[] wt) {
+        if(n == 0) {
+            if(W % wt[0] == 0) {
+                return (W / wt[0]) * val[0];
+            }
+            return 0;
+        }
+        int notPick = 0 + solve(n-1, W, val, wt);
+        int pick = Integer.MIN_VALUE;
+        if(W >= wt[n]) {
+            pick = val[n] + solve(n, W-wt[n], val, wt);
+        }
+        return Math.max(pick, notPick);
+    }
+    static int knapSack(int N, int W, int val[], int wt[])
+    {
+        int sum = 0;
+        return solve(N-1, W, val, wt);
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - Memoization
+
+Time = O(n*W) | Space = O(n*W) + O(n)
+
+class Solution{
+    static int solve(int n, int W, int[] val, int[] wt, int[][] dp) {
+        if(n == 0) {
+            if(W >= wt[0]) {
+                return (W / wt[0]) * val[0];
+            }
+            return 0;
+        }
+        if(dp[n][W] != -1) {
+            return dp[n][W];
+        }
+        int notPick = 0 + solve(n-1, W, val, wt, dp);
+        int pick = Integer.MIN_VALUE;
+        if(W >= wt[n]) {
+            pick = val[n] + solve(n, W-wt[n], val, wt, dp);
+        }
+        dp[n][W] = Math.max(pick, notPick);
+        return dp[n][W];
+    }
+    static int knapSack(int N, int W, int val[], int wt[])
+    {
+        int sum = 0;
+        int[][] dp = new int[N][W+1];
+        for(int i=0; i<N; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        return solve(N-1, W, val, wt, dp);
+    }
+}

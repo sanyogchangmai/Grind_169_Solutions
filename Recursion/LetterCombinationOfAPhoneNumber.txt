@@ -1,0 +1,45 @@
+Approach -
+
+Time = O() | Space = O()
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        HashMap<Character, String> map = new HashMap<>();
+        map.put('2', "abc");
+        map.put('3', "def");
+        map.put('4', "ghi");
+        map.put('5', "jkl");
+        map.put('6', "mno");
+        map.put('7', "pqrs");
+        map.put('8', "tuv");
+        map.put('9', "wxyz");
+
+        if(digits.length() == 0) {
+            List<String> bres = new ArrayList<>();
+            return bres;
+        }
+        if(digits.length() == 1) {
+            List<String> temp = new ArrayList<>();
+            String val = map.get(digits.charAt(0));
+            for(int i=0; i<val.length(); i++) {
+                temp.add(val.charAt(i) + "");
+            }
+            return temp;
+        }
+        
+        List<String> res = new ArrayList<>();
+        String newDigits = digits.substring(0, digits.length()-1);
+        char last = digits.charAt(digits.length()-1);
+
+        List<String> rres = letterCombinations(newDigits);
+        System.out.println(rres);
+        for(int i=0; i<rres.size(); i++) {
+            String value = map.get(last);
+            for(int j=0; j<value.length(); j++) {
+                res.add(rres.get(i) + value.charAt(j));
+            }
+        }
+
+        return res;
+    }
+}

@@ -1,0 +1,42 @@
+class Solution{
+    static int solve(String s1, String s2, int n, int m, int count) {
+        if(n == 0 || m == 0) {
+            return count;
+        }
+        if(s1.charAt(n) == s2.charAt(m)) {
+            count = solve(s1, s2, n-1, m-1, count + 1);
+        }
+        int count1 = solve(s1, s2, n-1, m, 0);
+        int count2 = solve(s1, s2, n, m-1, 0);
+        return Math.max(count, Math.max(count1, count2));
+    }
+    int longestCommonSubstr(String S1, String S2, int n, int m){
+        return solve(S1, S2, n-1, m-1, 0);
+    }
+}
+
+class Solution{
+    static int solve(String s1, String s2, int n, int m, int[][] dp) {
+        if(n < 0 || m < 0) {
+            return 0;
+        }
+        if(dp[n][m] != -1) {
+            return dp[n][m];
+        }
+        int count = Integer.MIN_VALUE;
+        if(s1.charAt(n) == s2.charAt(m)) {
+            count = 1 + solve(s1, s2, n-1, m-1, dp);
+        }
+        int count1 = 0 + solve(s1, s2, n-1, m, dp);
+        int count2 = 0 + solve(s1, s2, n, m-1, dp);
+        dp[n][m] = Math.max(count, Math.max(count1, count2));
+        return dp[n][m];
+    }
+    int longestCommonSubstr(String S1, String S2, int n, int m){
+        int[][] dp = new int[n][m];
+        for(int i=0; i<n; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        return solve(S1, S2, n-1, m-1, dp);
+    }
+}

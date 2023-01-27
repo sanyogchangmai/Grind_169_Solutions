@@ -1,0 +1,31 @@
+Approach 1 - Using Queue
+
+Time = O(n*d) | Space = O(d)
+where d is no. of node in the longest row of Binary Tree
+
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(root == null) {
+            return res;
+        }
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.offer(root);
+        while(q.size() != 0) {
+            List<Integer> arr = new ArrayList<>();
+            int n = q.size();
+            for(int i=0; i<n; i++) {
+                TreeNode temp = q.poll();
+                arr.add(temp.val);
+                if(temp.left != null) {
+                    q.offer(temp.left);
+                }
+                if(temp.right != null) {
+                    q.offer(temp.right);
+                }
+            }
+            res.add(arr);
+        }
+        return res;
+    }
+}
