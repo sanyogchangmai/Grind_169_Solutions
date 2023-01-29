@@ -1,0 +1,48 @@
+Approach 1 - BFS
+
+Time = O(V+2E) | Space = O(V)
+
+class Solution {
+    static class Pair {
+        int node;
+       int parent;
+        Pair(int n, int p) {
+            this.node = n;
+            this.parent = p;
+        }
+    }
+    static boolean checkCycle(int V, ArrayList<ArrayList<Integer>> adj, boolean[] vis, int src) {
+       vis[src] = true;
+       Queue<Pair> q = new LinkedList<Pair>();
+       q.offer(new Pair(src, -1));
+       
+       while(q.size() != 0) {
+           int node = q.peek().node;
+           int parent = q.peek().parent;
+           q.poll();
+           for(Integer i: adj.get(node)) {
+               if(vis[i] == false) {
+                   q.offer(new Pair(i, node));
+                   vis[i] = true;
+               }
+               else if(i != parent) {
+                   return true;
+               }
+           }
+           
+       }
+       return false;
+       
+    }
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean vis[] = new boolean[V];
+        for(int i=0; i<V; i++) {
+            if(vis[i] == false) {
+                if(checkCycle(V, adj, vis, i)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}

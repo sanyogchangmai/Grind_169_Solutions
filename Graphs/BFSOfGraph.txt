@@ -1,0 +1,51 @@
+Approach 1 - Using bfs
+
+Time = O(V + 2E)  | Space = O(V)
+
+class Solution {
+    public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        Queue<Integer> q = new LinkedList<Integer>();
+        boolean[] vis = new boolean[V];
+        q.offer(0);
+        vis[0] = true;
+        
+        while(q.size() != 0) {
+            Integer node = q.poll();
+            res.add(node);
+            for(Integer i: adj.get(node)) {
+                if(vis[i] == false) {
+                    q.offer(i);
+                    vis[i] = true;
+                }
+            }
+        }
+        
+        return res;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+class Solution {
+    public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> bfs = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
+        boolean[] vis = new boolean[V];
+        q.offer(0);
+        vis[0] = true;
+        
+        while(q.size() != 0) {
+            Integer node = q.poll();
+            bfs.add(node);
+            for(int i=0; i<adj.get(node).size(); i++) {
+                if(vis[adj.get(node).get(i)] == false) {
+                    vis[adj.get(node).get(i)] = true;
+                    q.add(adj.get(node).get(i));
+                }
+            }
+        }
+        
+        return bfs;
+    }
+}

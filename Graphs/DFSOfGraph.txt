@@ -1,0 +1,45 @@
+Approach 1 - Using bfs
+
+Time = O(V + 2E)  | Space = O(V)
+
+class Solution {
+    static void dfs(ArrayList<Integer> res, boolean[] vis, ArrayList<ArrayList<Integer>> adj, Integer node) {
+        res.add(node);
+        vis[node] = true;
+        for(Integer i: adj.get(node)) {
+            if(vis[i] == false) {
+                dfs(res, vis, adj, i);
+            }
+        }
+        return;
+    }
+    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        boolean[] vis = new boolean[V];
+        dfs(res, vis, adj, 0);
+        return res;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+class Solution {
+    static void DFS(ArrayList<Integer> dfs, boolean[] vis, int V, ArrayList<ArrayList<Integer>> adj, int node) {
+        vis[node] = true;
+        dfs.add(node);
+        for(int i=0; i<adj.get(node).size(); i++) {
+            if(vis[adj.get(node).get(i)] == false) {
+                DFS(dfs, vis, V, adj, adj.get(node).get(i));
+            }
+        }
+        return;
+    }
+    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> dfs = new ArrayList<Integer>();
+        boolean[] vis = new boolean[V];
+        vis[0] = true;
+        
+        DFS(dfs, vis, V, adj, 0);
+        return dfs;
+    }
+}

@@ -1,0 +1,73 @@
+Approach - Using BFS traversal
+
+1. To perform BFS we need a queue and ds to mark visited
+2. In queue we store the position(row, col) and time when we add it to queue
+3. We traverse the given grid, store rooten oranges in queue mark the visited ds
+4. We mark rest sof the places with 0
+5. We also count the number of fresh oranges for final check later
+6. We maintaina variable to count the oranges that we will rott
+7. We pop from queue update time and mark the above, below, left and right as rotten if applicable
+8. add then mark visited
+
+Time = O(m*n) | Space = O(m*n)
+
+class Solution {
+    class Pair {
+        int row;
+        int col;
+        int time;
+        Pair(int r, int c, int t) {
+            this.row = r;
+            this.col = c;
+            this.time = t;
+        }
+    }
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<Pair> q = new LinkedList<Pair>();
+        int[][] vis = new int[m][n];
+        int goodOranges = 0;
+
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] == 2) {
+                    q.offer(new Pair(i, j, 0));
+                    vis[i][j] = 2;
+                }
+                else if(grid[i][j] == 1) {
+                    vis[i][j] = 1;
+                    goodOranges++;
+                }
+                else {
+                    vis[i][j] = 0;
+                }
+            }
+        }
+
+        int time = 0;
+        int[] drow = {-1, 0, 1, 0};
+        int[] dcol = {0, 1, 0, -1};
+        int currentRottenOranges = 0;
+        while(q.size() != 0) {
+            Pair orange = q.poll();
+            time = Math.max(time, orange.time);
+            int row = orange.row;
+            int col = orange.col;
+            for(int i=0; i<4; i++) {
+                int nrow = row + drow[i];
+                int ncol = col + dcol[i];
+                if(nrow >= 0 && nrow < m && ncol >= 0 && ncol < n && vis[nrow][ncol] != 2 && grid[nrow][ncol] == 1) {
+                    q.offer(new Pair(nrow, ncol, time+1));
+                    vis[nrow][ncol] = 2;
+                    currentRottenOranges++;
+                }
+            }
+        }
+
+        if(currentRottenOranges == goodOranges) {
+            return time;
+        }
+        return -1;
+    }
+}
