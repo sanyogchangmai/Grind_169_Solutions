@@ -46,3 +46,37 @@ class Solution {
         return false;
     }
 }
+
+--------------------------------------------------------------------------------
+
+Approach 2 - DFS
+
+Time = O(V+2E) | Space = O(V)
+
+class Solution {
+    static boolean checkCycle(int src, int parent, boolean[] vis, ArrayList<ArrayList<Integer>> adj) {
+        vis[src] = true;
+        for(int i: adj.get(src)) {
+            if(vis[i] == false) {
+                if(checkCycle(i, src, vis, adj) == true) {
+                    return true;
+                }
+            }
+            else if(i != parent) {
+                    return true;
+            }
+        }
+        return false;
+    }
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean vis[] = new boolean[V];
+        for(int i=0; i<V; i++) {
+            if(vis[i] == false) {
+                if(checkCycle(i, -1, vis, adj) == true) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}

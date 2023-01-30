@@ -1,4 +1,4 @@
-Approach 1 - Using bfs
+Approach 1 - Using recursion
 
 Time = O(V + 2E)  | Space = O(V)
 

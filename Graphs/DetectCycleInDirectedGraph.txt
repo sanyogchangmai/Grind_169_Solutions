@@ -1,0 +1,39 @@
+Cycle in directed graph - on the same path node has to be visited again
+
+-> always traverse component wise
+
+Approach 1 - DFS
+
+Time = O(V + E) | Space = O(2V)
+
+class Solution {
+    static boolean dfs(int src, boolean[] vis, boolean[] pvis, ArrayList<ArrayList<Integer>> adj) {
+        vis[src] = true;
+        pvis[src] = true;
+        for(int i: adj.get(src)) {
+            if(vis[i] == false) {
+                if(dfs(i, vis, pvis, adj) == true) {
+                    return true;
+                }
+            }
+            else if(pvis[i] == true) {
+                return true;
+            }
+        }
+        pvis[src] = false;
+        return false;
+    }
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean[] vis = new boolean[V];
+        boolean[] pvis = new boolean[V];
+        
+        for(int i=0; i<V; i++) {
+            if(vis[i] == false) {
+                if(dfs(i, vis, pvis, adj) == true) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}

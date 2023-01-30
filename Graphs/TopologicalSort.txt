@@ -1,0 +1,51 @@
+Topological sort using DFS
+Linear ordering of vertices such that there is an edge between u & v, 
+u appears befoe v in that ordering
+
+Present only in DAG (directed acyclic graph)
+
+Approch 1 - Using DFS and stack
+
+Time = O(V+E) | Space = O(2V)
+
+1. We require visited array and a stack
+2. call dfs node is not visited
+3. Inside dfs mark node as visited
+4. and call dfs on adjacent node if not visited
+5. before returning push node to stack
+6. lastly pop items from stack to get the topological sort of the graph
+
+class Solution
+{
+    static void dfs(int node, Stack<Integer> st, boolean[] vis, ArrayList<ArrayList<Integer>> adj) {
+        vis[node] = true;
+        for(int i: adj.get(node)) {
+            if(vis[i] == false) {
+                dfs(i, st, vis, adj);
+            }
+        }
+        st.push(node);
+        return;
+    }
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {
+        boolean[] vis = new boolean[V];
+        Stack<Integer> st = new Stack<Integer>();
+        
+        for(int i=0; i<V; i++) {
+            if(vis[i] == false) {
+                dfs(i, st, vis, adj);
+            }
+        }
+        
+        int[] res = new int[V];
+        int i = 0;
+        while(st.size() != 0) {
+            res[i] = st.peek();
+            st.pop();
+            i++;
+        }
+        return res;
+    }
+}
+
