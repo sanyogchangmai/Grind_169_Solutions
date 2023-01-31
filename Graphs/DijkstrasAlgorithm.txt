@@ -1,3 +1,7 @@
+From single node - shortest path to every node
+
+Approach 1 - Using min. heap
+
 Time = O(ElogV) | Space = O()
 
 class Pair {

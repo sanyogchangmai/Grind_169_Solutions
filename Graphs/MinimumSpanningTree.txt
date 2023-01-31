@@ -1,0 +1,11 @@
+Given graph - Undirected weighted graph with N nodes and M edges(no relation between them)
+
+Spanning Tree
+-> A tree in which we have n nodes and n-1 edges
+-> All nodes should be reachable from each other
+
+Sum of weights of edges of spanning tree must be minimum
+
+Approach 1 - Prims Algorithm
+
+We require min. heap(w, node, parent) and vis array
