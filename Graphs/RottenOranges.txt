@@ -11,29 +11,31 @@ Approach - Using BFS traversal
 
 Time = O(m*n) | Space = O(m*n)
 
-class Solution {
-    class Pair {
-        int row;
-        int col;
-        int time;
-        Pair(int r, int c, int t) {
-            this.row = r;
-            this.col = c;
-            this.time = t;
-        }
+class Pair {
+    int row;
+    int col;
+    int time;
+    Pair(int r, int c, int t) {
+        this.row = r;
+        this.col = c;
+        this.time = t;
     }
-    public int orangesRotting(int[][] grid) {
+}
+class Solution
+{
+    
+    public int orangesRotting(int[][] grid)
+    {
         int m = grid.length;
         int n = grid[0].length;
         Queue<Pair> q = new LinkedList<Pair>();
         int[][] vis = new int[m][n];
         int goodOranges = 0;
-
         for(int i=0; i<m; i++) {
             for(int j=0; j<n; j++) {
                 if(grid[i][j] == 2) {
-                    q.offer(new Pair(i, j, 0));
                     vis[i][j] = 2;
+                    q.offer(new Pair(i, j, 0));
                 }
                 else if(grid[i][j] == 1) {
                     vis[i][j] = 1;
@@ -44,28 +46,29 @@ class Solution {
                 }
             }
         }
-
+        
         int time = 0;
-        int[] drow = {-1, 0, 1, 0};
-        int[] dcol = {0, 1, 0, -1};
-        int currentRottenOranges = 0;
+        int rottingOranges = 0;
+        int[] delrow = {-1, 0, 1, 0};
+        int[] delcol = {0, 1, 0, -1};
         while(q.size() != 0) {
-            Pair orange = q.poll();
-            time = Math.max(time, orange.time);
-            int row = orange.row;
-            int col = orange.col;
+            int x = q.peek().row;
+            int y = q.peek().col;
+            int t = q.peek().time;
+            q.poll();
+            time = Math.max(time, t);
             for(int i=0; i<4; i++) {
-                int nrow = row + drow[i];
-                int ncol = col + dcol[i];
-                if(nrow >= 0 && nrow < m && ncol >= 0 && ncol < n && vis[nrow][ncol] != 2 && grid[nrow][ncol] == 1) {
-                    q.offer(new Pair(nrow, ncol, time+1));
-                    vis[nrow][ncol] = 2;
-                    currentRottenOranges++;
+                int r = x + delrow[i];
+                int c = y + delcol[i];
+                if(r >= 0 && r < m && c >= 0 && c < n && vis[r][c] != 2 && vis[r][c] == 1) {
+                    q.offer(new Pair(r, c, time+1));
+                    vis[r][c] = 2;
+                    rottingOranges++;
                 }
             }
+            
         }
-
-        if(currentRottenOranges == goodOranges) {
+        if(goodOranges == rottingOranges) {
             return time;
         }
         return -1;

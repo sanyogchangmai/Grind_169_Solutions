@@ -9,7 +9,7 @@ Approch 1 - Using DFS and stack
 Time = O(V+E) | Space = O(2V)
 
 1. We require visited array and a stack
-2. call dfs node is not visited
+2. call dfs on node is not visited
 3. Inside dfs mark node as visited
 4. and call dfs on adjacent node if not visited
 5. before returning push node to stack

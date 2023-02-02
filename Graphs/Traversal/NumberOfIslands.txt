@@ -1,0 +1,89 @@
+Island on all 8 sides
+
+Approch 1 - BFS
+
+Time = O(m*n) | Space = O(m*n)
+
+class Pair {
+    int x;
+    int y;
+    Pair(int row, int col) {
+        this.x = row;
+        this.y = col;
+    }
+}
+class Solution {
+    static void bfs(int row, int col, char[][] grid, boolean[][] vis) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<Pair> q = new LinkedList<Pair>();
+        q.offer(new Pair(row, col));
+        vis[row][col] = true;
+        while(q.size() != 0) {
+            int x = q.peek().x;
+            int y = q.peek().y;
+            q.poll();
+            for(int i=x-1; i<=x+1; i++) {
+                for(int j=y-1; j<=y+1; j++) {
+                    if(i >= 0 && i < m && j >= 0 && j < n && grid[i][j] == '1' && vis[i][j] == false) {
+                        q.offer(new Pair(i, j));
+                        vis[i][j] = true;
+                    }
+                }
+            }
+        }
+        return;
+    }
+    public int numIslands(char[][] grid) {
+        int islandCount = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] vis = new boolean[m][n];
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] == '1' && vis[i][j] == false) {
+                    bfs(i, j, grid, vis);
+                    islandCount++;
+                }
+            }
+        }
+        return islandCount;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - DFS
+
+Time = O(m*n) | Space = O(m*n)
+
+class Solution {
+    static void dfs(int row, int col, char[][] grid, boolean[][] vis) {
+        int m = grid.length;
+        int n = grid[0].length;
+        vis[row][col] = true;
+        for(int i=row-1; i<=row+1; i++) {
+            for(int j=col-1; j<=col+1; j++) {
+                if(i >= 0 && i < m && j >= 0 && j < n && grid[row][col] == '1' && vis[i][j] == false) {
+                    dfs(i, j, grid, vis);
+                }
+            }
+        }
+        return;
+    }
+    public int numIslands(char[][] grid) {
+        int islandCount = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] vis = new boolean[m][n];
+        for(int i=0; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                if(grid[i][j] == '1' && vis[i][j] == false) {
+                    dfs(i, j, grid, vis);
+                    islandCount++;
+                }
+            }
+        }
+        return islandCount;
+    }
+}
