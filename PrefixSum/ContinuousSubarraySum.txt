@@ -1,0 +1,44 @@
+Approach 1 - Iterative
+
+Time = O(n*n) | Space = O(1)
+
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        for(int i=0; i<nums.length; i++) {
+            int sum = nums[i];
+            for(int j=i+1; j<nums.length; j++) {
+                sum += nums[j];
+                if(sum % k == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach - 6%5=1 && (6+5)%5=1
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int sum = 0;
+        for(int i=0; i<nums.length; i++) {
+            sum += nums[i];
+            if(map.containsKey(sum%k) == false) {
+                map.put(sum%k, i);
+            }
+            else {
+                if(i - map.get(sum%k) >= 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}

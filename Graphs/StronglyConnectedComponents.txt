@@ -1,0 +1,62 @@
+Approach 1
+
+Time = O(V+E) | Space = O(V)
+
+class Solution
+{
+    static void dfs(int node, boolean[] vis, ArrayList<ArrayList<Integer>> adj, Stack<Integer> st) {
+        vis[node] = true;
+        for(Integer adjNode: adj.get(node)) {
+            if(vis[adjNode] == false) {
+                dfs(adjNode, vis, adj, st);
+            }
+        }
+        st.push(node);
+    }
+    
+    static void dfs3(int node, boolean[] vis, ArrayList<ArrayList<Integer>> adjRev) {
+        vis[node] = true;
+        for(Integer adjNode: adjRev.get(node)) {
+            if(vis[adjNode] == false) {
+                dfs3(adjNode, vis, adjRev);
+            }
+        }
+    }
+    
+    public int kosaraju(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        // step1 - dfs and store according to finish time in stack
+        Stack<Integer> st = new Stack<>();
+        boolean[] vis = new boolean[V];
+        for(int i=0; i<V; i++) {
+            if(vis[i] == false) {
+                dfs(i, vis, adj, st);
+            }
+        }
+        
+        // step2 - reverse graph and store in another adj list
+        ArrayList<ArrayList<Integer>> adjRev = new ArrayList<ArrayList<Integer>>();
+        for(int i=0; i<V; i++) {
+            adjRev.add(new ArrayList<Integer>());
+        }
+        for(int i=0; i<V; i++) {
+            vis[i] = false;
+            for(Integer adjNode: adj.get(i)) {
+                adjRev.get(adjNode).add(i);
+            }
+        }
+        
+        // step3 - perform dfs according to nodes present in stack
+        int scc = 0;
+        while(st.size() != 0) {
+            int n = st.peek();
+            st.pop();
+            if(vis[n] == false) {
+                scc++;
+                dfs3(n, vis, adjRev);
+            }
+        }
+        
+        return scc;
+    }
+}

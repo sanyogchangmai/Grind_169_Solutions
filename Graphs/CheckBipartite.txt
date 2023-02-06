@@ -1,0 +1,44 @@
+Approach 1 - Using BFS
+
+Time = O(V+E) | Space = O(V)
+
+class Solution
+{
+    static boolean check(int node, int[] color, ArrayList<ArrayList<Integer>>adj) {
+        Queue<Integer> q = new LinkedList<Integer>();
+        color[node] = 0;
+        q.offer(node);
+        
+        while(q.size() != 0) {
+            int n = q.poll();
+            for(Integer adjNode: adj.get(n)) {
+                if(color[adjNode] == -1) {
+                    color[adjNode] = 1 - color[n];
+                    q.offer(adjNode);
+                }
+                else {
+                    if(color[adjNode] == color[n]) {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+    public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj)
+    {
+        int[] color = new int[V];
+        Arrays.fill(color, -1);
+        
+        for(int i=0; i<V; i++) {
+            if(color[i] == -1) {
+                if(check(i, color, adj) == false) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+}
