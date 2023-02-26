@@ -1,0 +1,112 @@
+The array is sorted
+
+Approach 1 - Naive approach
+
+Time = O(n*n) | Space = O(1)
+
+public class Main
+{
+    static int getPairs(int[] arr, int n, int k) {
+        int count = 0;
+        for(int i=0; i<n-1; i++) {
+            for(int j=i+1; j<n; j++) {
+                if(arr[i] + arr[j] == k) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+	public static void main(String[] args) {
+		int[] arr = {1,4,4,5,5,5,6,6,11};
+		int k = 10;
+		int n = arr.length;
+		System.out.println(getPairs(arr, n, k));
+	}
+}
+
+--------------------------------------------------------------------------------
+
+Approach 2 - using HashMap
+
+Time = O(n) | Space = O(n)
+
+public class Main
+{
+    static int getPairs(int[] arr, int n, int k) {
+        int count = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<n; i++) {
+            int num = k - arr[i];
+            if(map.containsKey(num)) {
+                count += map.get(num);
+            }
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+        }
+        return count;
+    }
+	public static void main(String[] args) {
+		int[] arr = {1,4,4,5,5,5,6,6,11};
+		int k = 11;
+		int n = arr.length;
+		System.out.println(getPairs(arr, n, k));
+	}
+}
+
+--------------------------------------------------------------------------------
+
+Approach 3 - Two Pointer
+
+Time = O(n) | Space = O(1)
+
+public class Main
+{
+    static int getPairs(int[] arr, int n, int k) {
+        int count = 0;
+        int start = 0;
+        int end = n-1;
+        while(start < end) {
+            int sum = arr[start] + arr[end];
+            if(sum > k) {
+                end--;
+            }
+            else if(sum < k) {
+                start++;
+            }
+            else {
+                if(arr[start] != arr[end]) {
+                    int c1 = 0;
+                    int curr1 = arr[start];
+                    while(arr[start] == curr1) {
+                        start++;
+                        c1++;
+                    }
+                    int c2 = 0;
+                    int curr2 = arr[end];
+                    while(arr[end] == curr2) {
+                        end--;
+                        c2++;
+                    }
+                    count += c1 * c2;
+                }
+                else {
+                    int c1 = 0;
+                    int curr1 = arr[start];
+                    while(arr[start] == curr1) {
+                        start++;
+                        c1++;
+                    }
+                    count += c1;
+                }
+                
+            }
+        }
+        return count;
+    }
+	public static void main(String[] args) {
+		int[] arr = {1,4,4,5,5,5,6,6,11};
+		int k = 10;
+		int n = arr.length;
+		System.out.println(getPairs(arr, n, k));
+	}
+}

@@ -1,0 +1,46 @@
+Approach 2 - Two Pointer in place
+
+Time = O(n) | Space = O(1)
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int left = 0;
+        int right = 1;
+        int n = nums.length;
+
+        while(right < n) {
+            if(nums[left] == nums[right]) {
+                right++;
+            }
+            else {
+                if(right - left > 1) {
+                    // update left+1 with r
+                    int temp = nums[left+1];
+                    nums[left+1] = nums[right];
+                    left++;
+                }
+                else {
+                    left++;
+                    right++;
+                }
+            }
+        }
+
+        return left+1;
+    }
+}
+
+---------- OR ----------
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int slow = 0;
+        for(int fast=0; fast<nums.length; fast++) {
+            if(nums[slow] != nums[fast]) {
+                slow++;
+                nums[slow] = nums[fast];
+            }
+        }
+        return slow+1;
+    }
+}

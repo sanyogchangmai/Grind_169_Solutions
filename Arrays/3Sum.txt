@@ -59,7 +59,7 @@ class Solution {
 
 --------------------------------------------------------------------------------
 
-Approach 3 - Two pinter
+Approach 3 - Two pointer
 
 Time = O(n*n) | Space = O(1)
 

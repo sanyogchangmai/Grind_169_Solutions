@@ -1,0 +1,26 @@
+Approach 1 - Inorder Traversal
+
+Time = O(n) | Space = O(n)
+
+public class Solution {
+    static boolean getPath(TreeNode root, int target, ArrayList<Integer> res) {
+        if(root == null) {
+            return false;
+        }
+        res.add(root.val);
+        if(root.val == target) {
+            return true;
+        }
+        boolean left = getPath(root.left, target, res);
+        boolean right = getPath(root.right, target, res);
+        if(left || right) {
+            return true;
+        }
+        res.remove(res.size() - 1);
+        return false;
+    }
+    public ArrayList<Integer> solve(TreeNode A, int B) {
+        ArrayList<Integer> res = new ArrayList<>();
+        getPath(A, B, res);
+        return res;
+    }

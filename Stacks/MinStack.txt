@@ -1,0 +1,41 @@
+Time = O(1) | Space = O(n)
+
+class Pair {
+    int val;
+    int min;
+    Pair(int x, int y) {
+        this.val = x;
+        this.min = y;
+    }
+}
+
+class MinStack {
+    Stack<Pair> st;
+    public MinStack() {
+        st = new Stack<Pair>();
+    }
+    
+    public void push(int val) {
+        if(st.size() == 0) {
+            st.push(new Pair(val, val));
+        }
+        else {
+            int minimum = Math.min(st.peek().min, val);
+            st.push(new Pair(val, minimum));
+        }
+    }
+    
+    public void pop() {
+        if(st.size() != 0) {
+            st.pop();
+        }
+    }
+    
+    public int top() {
+        return st.peek().val;
+    }
+    
+    public int getMin() {
+        return st.peek().min;
+    }
+}

@@ -1,0 +1,54 @@
+Approach 1 - Using ArrayDeque
+
+When dir == 'l'
+poll from left | left | offer from left
+
+When dir == 'r'
+poll from right | right | offer from first
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(root == null) {
+            return res;
+        }
+        ArrayDeque<TreeNode> dq = new ArrayDeque<TreeNode>();
+        char dir = 'l';
+        dq.offerLast(root);
+
+        while(dq.size() != 0) {
+            int size = dq.size();
+            List<Integer> temp = new ArrayList<Integer>();
+            for(int i=0; i<size; i++) {
+                TreeNode node = (dir == 'l') ? dq.pollFirst() : dq.pollLast();
+                if(dir == 'l') {
+                    if(node.left != null) {
+                        dq.offerLast(node.left);
+                    }
+                    if(node.right != null) {
+                        dq.offerLast(node.right);
+                    }
+                }
+                else if(dir == 'r') {
+                    if(node.right != null) {
+                        dq.offerFirst(node.right);
+                    }
+                    if(node.left != null) {
+                        dq.offerFirst(node.left);
+                    }
+                }
+                temp.add(node.val);
+            }
+            if(dir == 'l') {
+                dir = 'r';
+            }
+            else {
+                dir = 'l';
+            }
+            res.add(temp);
+        }
+        return res;
+    }
+}
