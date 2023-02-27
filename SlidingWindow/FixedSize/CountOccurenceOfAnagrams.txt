@@ -1,0 +1,88 @@
+Approach 1 - Sliding window
+
+Time = O(n*n) | Space = O(2n)
+
+class Solution {
+
+    int search(String pat, String txt) {
+        int count = 0;
+        HashMap<Character, Integer> map1 = new HashMap<>();
+        for(int i=0; i<pat.length(); i++) {
+            map1.put(pat.charAt(i), map1.getOrDefault(pat.charAt(i), 0) + 1);
+        }
+        
+        int start = 0;
+        int end = 0;
+        HashMap<Character, Integer> map2 = new HashMap<>();
+        while(end < txt.length()) {
+            map2.put(txt.charAt(end), map2.getOrDefault(txt.charAt(end), 0) + 1);
+            if(end - start + 1 < pat.length()) {
+                end++;
+            }
+            else {
+                if(map2.equals(map1)) {
+                    count++;
+                }
+                if(map2.get(txt.charAt(start)) == 1) {
+                    map2.remove(txt.charAt(start));
+                }
+                else {
+                    map2.put(txt.charAt(start), map2.getOrDefault(txt.charAt(start), 0) - 1);
+                }
+                
+                start++;
+                end++;
+            }
+        }
+        return count;
+    }
+}
+
+--------------------------------------------------------------------------------
+
+Approach 1 - Sliding window
+
+Time = O(n) | Space = O(n)
+
+class Solution {
+
+    int search(String pat, String txt) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(int i=0; i<pat.length(); i++) {
+            map.put(pat.charAt(i), map.getOrDefault(pat.charAt(i), 0) + 1);
+        }
+        
+        int res = 0;
+        int count = map.size();
+        int start = 0;
+        int end = 0;
+        while(end < txt.length()) {
+            // if a ch is present decrement frequency
+            char ch = txt.charAt(end);
+            if(map.containsKey(ch)) {
+                map.put(ch, map.getOrDefault(ch, 0) - 1);
+                if(map.get(ch) == 0) {
+                    count--;
+                }
+            }
+            if(end - start + 1 < pat.length()) {
+                end++;
+            }
+            else {
+                if(count == 0) {
+                    res++;
+                }
+                char temp = txt.charAt(start);
+                if(map.containsKey(temp)) {
+                   map.put(temp, map.getOrDefault(temp, 0) + 1);
+                    if(map.get(temp) == 1) {
+                        count++;
+                    } 
+                }
+                start++;
+                end++;
+            }
+        }
+        return res;
+    }
+}
